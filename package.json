@@ -1,0 +1,29 @@
+{
+  "name": "etube",
+  "version": "1.0.0",
+  "description": "Watch videos",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Christopher-Eunho/etube.git"
+  },
+  "author": "Chris",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Christopher-Eunho/etube/issues"
+  },
+  "homepage": "https://github.com/Christopher-Eunho/etube#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/node": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "nodemon": "^2.0.15"
+  }
+}
