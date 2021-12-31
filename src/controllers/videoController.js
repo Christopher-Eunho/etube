@@ -1,5 +1,5 @@
 export const trending = (req, res) => {
-    return res.send("<h1>trending video<h1>")
+    return res.render("home", {pageTitle : "Home"});
 }
 
 

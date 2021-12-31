@@ -9,14 +9,15 @@ const PORT = 4000;
 const app = express();
 const logger = morgan("dev"); // "dev" is a config option
 
+app.set("view engine", "pug");
+app.set("views", process.cwd() + "/src/views")
 app.use(logger); //Global middleware
-
-const handleListening = () => {
-    console.log(`🌟 Server listening on port http://localhost:${PORT} 🌟`);
-}
 
 app.use("/", globalRouter);
 app.use("/video", videoRouter);
 app.use("/user", userRouter);
 
+const handleListening = () => {
+    console.log(`🌟 Server listening on port http://localhost:${PORT} 🌟`);
+}
 app.listen(4000, handleListening)
