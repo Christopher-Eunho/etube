@@ -1,11 +1,11 @@
 import express from "express";
 
-import { trending } from "../controllers/videoController";
+import { handleHome } from "../controllers/videoController";
 
 
 
 const globalRouter = express.Router();
 
-globalRouter.get("/", trending);
+globalRouter.get("/", handleHome);
 
 export default globalRouter;
