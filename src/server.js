@@ -12,6 +12,7 @@ const logger = morgan("dev"); // "dev" is a config option
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views")
 app.use(logger); //Global middleware
+app.use(express.urlencoded({extended : true}));
 
 app.use("/", globalRouter);
 app.use("/video", videoRouter);

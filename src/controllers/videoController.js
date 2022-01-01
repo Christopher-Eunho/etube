@@ -3,7 +3,7 @@ const fakeUser = {
     loggedIn : false
 }
 
-const fakeVideos = [
+let fakeVideos = [
     {
     title : "OiOi",
     rating : 4,
@@ -34,13 +34,23 @@ export const handleHome = (req, res) => {
 export const watch = (req, res) => {
     const { id } = req.params;
     const video = fakeVideos[id - 1];
-    return res.render("watch", {pageTitle : video.title, fakeUser })
+    return res.render("watch", {pageTitle : video.title, fakeUser, video })
 }
 
-export const edit = (req, res) => {
-    return res.send("<h1>edit video<h1>")
+export const getEdit = (req, res) => {
+    const { id } = req.params;
+    const video = fakeVideos[id - 1];
+    return res.render("editVideo", {pageTitle : "Editing " + video.title, fakeUser, video })
+}
+
+export const postEdit = (req, res) => {
+    const { id } = req.params;
+    const { title } = req.body;
+
+    fakeVideos[id - 1].title = title;
+    return res.redirect(`/video/${id}`);
 }
 
 export const remove = (req, res) => {
-    return res.send("<h1>remove video<h1>")
+    return res.send("<h1>remove video<h1>");
 }
