@@ -4,21 +4,27 @@ const fakeUser = {
 }
 
 const fakeVideos = [
-    {title : "OiOi",
+    {
+    title : "OiOi",
     rating : 4,
     comments : 10,
     createdAt : "2 mins ago",
-    views : 234},
-    {title : "Cali",
+    views : 234,
+    id : 1},
+    {
+    title : "Cali",
     rating : 3.4,
     comments : 12,
     createdAt : "3 mins ago",
-    views : 213},
-    {title : "Oki",
+    views : 213,
+    id : 2}, 
+    {
+    title : "Oki",
     rating : 4.4,
     comments : 13,
     createdAt : "4 mins ago",
-    views : 2132},
+    views : 2132,
+    id : 3}
 ]
 
 export const handleHome = (req, res) => {
@@ -26,8 +32,9 @@ export const handleHome = (req, res) => {
 }
 
 export const watch = (req, res) => {
-    const id = req.params.id;
-    return res.send(`<h1>watch video #${id}<h1>`)
+    const { id } = req.params;
+    const video = fakeVideos[id - 1];
+    return res.render("watch", {pageTitle : video.title, fakeUser })
 }
 
 export const edit = (req, res) => {
