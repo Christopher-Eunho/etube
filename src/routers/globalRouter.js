@@ -1,11 +1,11 @@
 import express from "express";
 
-import { handleHome } from "../controllers/videoController";
+import { getHome, searchVideo } from "../controllers/videoController";
 
 
 
 const globalRouter = express.Router();
 
-globalRouter.get("/", handleHome);
-
+globalRouter.get("/", getHome);
+globalRouter.get("/search", searchVideo);
 export default globalRouter;

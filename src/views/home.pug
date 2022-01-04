@@ -4,7 +4,7 @@ include mixins/video
 block content
     h1 Welcome to Etube
 
-    each video in fakeVideos
+    each video in videos
         +video(video)
     else 
         li sorry no video has been found

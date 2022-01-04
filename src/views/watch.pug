@@ -2,10 +2,21 @@ extends base.pug
 include mixins/video
 
 block content
+    div 
+        small=video.createdAt
+        p=video.description
     ul
         li #{video.views} #{ video.views <= 1 ? "view" : "views"}
         li #{video.comments} #{ video.comments <= 1 ? "comment" : "comments"}
+    h4 hashtags
+    nav
+        each hashtag in video.hashtags
+            small=hashtag
     h3
-        a(href=`${video.id}/edit`) Edit Video &rarr;
+        a(href=`${video.id}/edit`) Edit &rarr;
+        hr
+        a(href=`${video.id}/delete`) Delete &rarr;
+
+    
     
     

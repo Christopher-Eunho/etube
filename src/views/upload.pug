@@ -3,9 +3,20 @@ extends base.pug
 
 block content
     h3 Upload New Video
+    if errorMessage
+        span=errorMessage
+
     form(method="POST")
-        input(name="title", placeholder="Video Title", required)
-        input(value="save", type="submit")
+        div
+            h4 Title
+            input(name="title", placeholder="max 40 characters", type="text", maxlength=40, required)
+        div 
+            h4 Description
+            input(name="description", placeholder="min 10 characters", type="text", minlength=10, required)
+        div 
+            h4 Hashtags
+            input(name="hashtags", placeholder="Separated by commma", type="text", required)
+        input(value="Upload", type="submit")
 
 
     

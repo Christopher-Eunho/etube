@@ -2,9 +2,9 @@
   "name": "etube",
   "version": "1.0.0",
   "description": "Watch videos",
-  "main": "server.js",
+  "main": "init.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
+    "dev": "nodemon --exec babel-node src/init.js"
   },
   "repository": {
     "type": "git",
