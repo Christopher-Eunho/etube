@@ -3,7 +3,7 @@
 
 import express from "express"; // const express = require("express"); written in babel
 import morgan from "morgan";  // morgan is a logger middleware
-import globalRouter from "./routers/globalRouter";
+import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
@@ -16,7 +16,7 @@ app.set("views", process.cwd() + "/src/views") // change the location of views f
 app.use(logger); //Global middleware
 app.use(express.urlencoded({extended : true})); // parses html form and translate into JS object
 
-app.use("/", globalRouter);
+app.use("/", rootRouter);
 app.use("/video", videoRouter);
 app.use("/user", userRouter);
 
