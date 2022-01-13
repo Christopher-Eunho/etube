@@ -1,6 +1,8 @@
 extends base.pug
 
-block content 
+block content
+    if errorMessage
+        h4 #{errorMessage}
     form(method ="POST")
         div
             h4 Name

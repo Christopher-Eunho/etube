@@ -1,4 +1,4 @@
-
+import User from "../models/User";
 
 
 export const editProfile = (req, res) => {
@@ -8,8 +8,37 @@ export const editProfile = (req, res) => {
 export const getJoin = (req, res) => {
     return res.render("join", {pageTitle: "Create Account"});
 }
+ 
+export const postJoin = async(req, res) => {
+    const {name, email, username, password, location} = req.body;
+    
+    if(await User.exists({username})) {
+        return res.render('join',
+         {pageTitle: "Create Account",
+          errorMessage: "Username already exists."})
+    }
 
-export const postJoin = (req, res) => {
-    console.log(req.body);
-    return res.redirect("/");
+    if(await User.exists({email})) {
+        return res.render('join',
+         {pageTitle: "Create Account",
+          errorMessage: "email already exists. "})
+    }
+
+    
+    await User.create({
+        name,
+        username,
+        email,
+        password,
+        location
+    });
+    return res.redirect("/login");
+}
+
+export const getLogin = (req, res) => {
+    return res.render("login", {pageTitle: "Login Page"});
+}
+
+export const postLogin = (req, res) => {
+    return req.redirect("/");
 }

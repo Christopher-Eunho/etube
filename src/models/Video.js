@@ -11,7 +11,7 @@ const videoSchema = new mongoose.Schema({
     }
 }); // meta is extra data
 
-
+//a function for video model that converts hashtags into words 
 videoSchema.static("formatHashtags", (hashtags) => {
     return hashtags.split(",").map((word) => word.startsWith("#") ? word : `#${word}`)
 });
