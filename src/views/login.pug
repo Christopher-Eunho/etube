@@ -1,2 +1,18 @@
 extends base.pug
 
+block content
+    if errorMessage
+        h4 #{errorMessage}
+    form(method ="POST")
+        div
+            span Username
+            input(name="username", tpye="text", required)
+        div
+            span Password
+            input(name="password", tpye="password", required)
+        input(type="submit", value="login")
+    hr
+    div
+        span Don't have an account?     
+        a(href="/join") Create Account
+        

@@ -31,7 +31,7 @@ export const getEdit = async (req, res) => {
     const { id } = req.params;
     const video = await Video.findById(id);
         if(!video){
-            return res.render("404", {pageTitle : "Video Not Found", fakeUser});
+            return res.status(404).render("404", {pageTitle : "Video Not Found", fakeUser});
         }
     
     return res.render("editVideo", {pageTitle : "Editing " + video.title, fakeUser, video })
@@ -42,7 +42,7 @@ export const postEdit = async (req, res) => {
     const { title, description, hashtags } = req.body;
     
     if(!Video.exists({id_:id})){
-        return res.render("404", {pageTitle : "Video Not Found", fakeUser});
+        return res.status(404).render("404", {pageTitle : "Video Not Found", fakeUser});
     }
 
     await Video.findByIdAndUpdate(id,{
@@ -70,7 +70,7 @@ export const postUpload = async (req, res) => {
         }) // creates a new video data and save it to the db
     return res.redirect("/");
     } catch(err) {
-        return res.render("/upload", {
+        return res.status(404).render("/upload", {
             pageTitle: "Upload Video",
             fakeUser,
             errorMessage: err._message
