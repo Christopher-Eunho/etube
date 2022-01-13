@@ -10,12 +10,18 @@ export const getJoin = (req, res) => {
 }
  
 export const postJoin = async(req, res) => {
-    const {name, email, username, password, location} = req.body;
+    const {name, email, username, password, password2, location} = req.body;
     
+    if(password !== password2) {
+        return res.render('join',
+         {pageTitle: "Create Account",
+          errorMessage: "Passwords do not match"})
+    }
+
     if(await User.exists({username})) {
         return res.render('join',
          {pageTitle: "Create Account",
-          errorMessage: "Username already exists."})
+          errorMessage: "Username already exists."});
     }
 
     if(await User.exists({email})) {
