@@ -64,5 +64,13 @@ export const postLogin = async (req, res) => {
          errorMessage: "Incorrect Passowrd"});
     }
 
+    // Save login info on the current session
+    req.session.loggedIn = true;
+    req.session.user = user;
+
+    return res.redirect("/");
+}
+
+export const getLogout = (req, res, next) => {
     return res.redirect("/");
 }
