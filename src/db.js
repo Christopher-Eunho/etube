@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const URL = "mongodb://127.0.0.1:27017/etube"
+const URL = process.env.DB_URL 
 
 mongoose.connect(URL);
 

@@ -1,5 +1,5 @@
 // Initializes and starts app 
-
+import "dotenv/config"; // = require('dotenv').config()
 import app from "./server";
 import "./db"; // this executes all the codes in ./db.js
 import "./models/Video"; // this lets the db know the model Video
