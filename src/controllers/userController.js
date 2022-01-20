@@ -1,8 +1,13 @@
 import User from "../models/User";
 import bcrypt from "bcrypt"; 
+import fetch from "node-fetch";
 
-export const editProfile = (req, res) => {
-    return res.send("<h1>Edit Profile<h1>");
+export const getEditProfile = (req, res) => {
+    return res.render("editProfile", {pageTitle: "Edit Profile"});
+}
+
+export const postEditProfile = (req, res) => {
+    return res.redirect("/");
 }
 
 export const getJoin = (req, res) => {
@@ -49,10 +54,18 @@ export const postLogin = async (req, res) => {
     const pageTitle = "Login"
     const {username, password} = req.body;
     const user = await User.findOne({username});
+    
+
     if(!user) {
         return res.status(400).render('login',
          {pageTitle,
           errorMessage: "Username does not exist."});
+    }
+
+    if(user.socialOnly) {
+        return res.status(400).render('login',
+         {pageTitle,
+          errorMessage: `${username} is signed up with only social account. User social login.`});
     }
 
     // compare the hashes so that user password is not exposed
@@ -64,7 +77,7 @@ export const postLogin = async (req, res) => {
          errorMessage: "Incorrect Passowrd"});
     }
 
-    // Save login info on the current session
+    // Save login info on the current session i.e. have user login
     req.session.loggedIn = true;
     req.session.user = user;
 
@@ -72,5 +85,113 @@ export const postLogin = async (req, res) => {
 }
 
 export const getLogout = (req, res, next) => {
+    req.session.destroy();
     return res.redirect("/");
+}
+
+
+// Set config of authentication option and redirect user to url with the config as params
+export const startGithubLogin = (req, res) => {
+    const baseURL = "https://github.com/login/oauth/authorize"
+     
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        allow_signup: false,
+        scope: "read:user user:email"
+    };
+
+    const params = new URLSearchParams(config).toString();
+    const finalURL = `${baseURL}?${params}`;
+    return res.redirect(finalURL);
+
+} 
+
+/* Once user approved to use github authentication, they will be sent back to app 
+    with the code. This function gets access token with the code,
+    takes user data from github with access token, and process the data.
+*/
+export const finishGithubLogin = async (req, res) => {
+    const baseURL = "https://github.com/login/oauth/access_token";
+   
+    // req.query.code is recieved when directed to this route by Github
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        client_secret: process.env.GH_SECRET,
+        code: req.query.code,
+    };
+
+
+    const params = new URLSearchParams(config).toString();
+    const finalURL = `${baseURL}?${params}`;
+
+    // recieve access token and transform it to json form
+    const tokenData = await ( 
+        await fetch(finalURL, {
+        method: "POST",
+        headers: {
+            Accept: "application/json"
+        }
+    })).json();
+    
+    // retrieve user data and email data from Github api with access token
+    if ("access_token" in tokenData) {
+        const { access_token } = tokenData;
+        const apiUrl = "https://api.github.com";
+        
+        let userData;
+        let emailData;
+        // user data
+        try{
+            userData = await (
+                await fetch(`${apiUrl}/user`, {
+                  headers: {
+                    Authorization: `token ${access_token}`,
+                  },
+                })
+              ).json();
+        } catch(err) {
+            console.log("error: ", err);
+        };
+
+        // email data
+        try{
+            emailData = await (
+                await fetch(`${apiUrl}/user/emails`, {
+                  headers: {
+                    Authorization: `token ${access_token}`,
+                  },
+                })
+              ).json();
+        } catch(err) {
+            console.log("error: ", err);
+        };
+
+        const email = emailData.find(
+            (email) => email.primary && email.verified
+        ).email;
+        
+        let user = await User.findOne({email});
+        
+        
+        if(!user) {
+            try{
+            user = await User.create({
+                avatarUrl: userData.avatar_url,
+                name: userData.name,
+                username: userData.login,
+                email,
+                password: "",
+                socialOnly: true,
+                location: userData.location
+            });
+        } catch(err) {
+            console.log("error: ", err)
+        }
+            req.session.loggedIn = true;
+            req.session.user = user;
+            return res.redirect("/");
+        } else {
+            return res.redirect("/login");
+        }
+    }
 }

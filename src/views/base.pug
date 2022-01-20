@@ -13,15 +13,19 @@ html(lang='en')
                             a(href="/") Home
                         li
                             a(href="/search") Search
-                        if !loggedIn
+                        if loggedIn
+                            li
+                                a(href="/logout") Logout
+                            li
+                                a(href="/edit") Edit Profile
+                            li
+                                small Hi, #{loggedInUser.name}
+                        else
                             li
                                 a(href="/join") Join  
                             li
                                 a(href="/login") Login
-                        else
-                            li
-                                a(href="/logout") Logout
-                        
+                           
 
 
             h1=pageTitle

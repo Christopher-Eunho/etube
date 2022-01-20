@@ -19,6 +19,7 @@ app.use(express.urlencoded({extended : true})); // parses html form and translat
 
 
 /* 
+http://expressjs.com/en/resources/middleware/session.html
 Session will remember the communication(cookie) b/w server and browser;
 creates session id for each browser and sends it to the browser
 Browser will save the session id on its cookie and, 
@@ -37,12 +38,6 @@ app.use(
     })
 )
  
-app.use((req, res, next) => {
-    req.sessionStore.all((error, sessions) => {
-        console.log(session);
-        next();
-    })
-})
 
 app.use(localsMiddleware);
 
