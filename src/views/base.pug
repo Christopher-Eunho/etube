@@ -8,16 +8,16 @@ html(lang='en')
             nav
                     ul      
                         li
-                            a(href="/video/upload") Upload
-                        li
                             a(href="/") Home
                         li
                             a(href="/search") Search
                         if loggedIn
                             li
+                                a(href="/video/upload") Upload
+                            li
                                 a(href="/logout") Logout
                             li
-                                a(href="/edit") Edit Profile
+                                a(href="/user/edit") Edit Profile
                             li
                                 small Hi, #{loggedInUser.name}
                         else

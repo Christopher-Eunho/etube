@@ -6,7 +6,35 @@ export const getEditProfile = (req, res) => {
     return res.render("editProfile", {pageTitle: "Edit Profile"});
 }
 
-export const postEditProfile = (req, res) => {
+export const postEditProfile = async (req, res) => {
+    const { session: {user: {_id: id,
+                            email: currentEmail,
+                            username: currentUsername}},
+            body : {name, email, username, location}} = req;
+
+    
+
+    if(currentEmail !== email && await User.exists({email})){
+            return res.status(400).render('editProfile',
+             {pageTitle: "Edit Profile",
+              errorMessage: "email already exists. "})
+    }
+
+    if(currentUsername !== username && await User.exists({username})){
+        return res.status(400).render('editProfile',
+         {pageTitle: "Edit Profile",
+          errorMessage: "username already exists. "})
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(id, 
+        {name,
+        email,
+        username,
+        location},
+        {new: true});
+
+    req.session.user = updatedUser;
+
     return res.redirect("/");
 }
 
@@ -14,7 +42,7 @@ export const getJoin = (req, res) => {
     return res.render("join", {pageTitle: "Create Account"});
 }
  
-export const postJoin = async(req, res) => {
+export const postJoin = async (req, res) => {
     const {name, email, username, password, password2, location} = req.body;
     
     if(password !== password2) {
@@ -191,6 +219,8 @@ export const finishGithubLogin = async (req, res) => {
             req.session.user = user;
             return res.redirect("/");
         } else {
+            req.session.loggedIn = true;
+            req.session.user = user;
             return res.redirect("/login");
         }
     }
