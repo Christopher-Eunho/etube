@@ -9,11 +9,15 @@ const userSchema = new mongoose.Schema({
     password: {type: String},
     name: {type: String, required: true},
     location: String,
+    videos: [{type: mongoose.Schema.Types.ObjectId, ref: "Video"}]
 });
 
 // Hash the password before saving User. 'This' refers to User model. 
 userSchema.pre('save', async function(){
-    this.password = await bcrypt.hash(this.password, 5);// 5: how many hash we want to do
+    // Hash password only when passoword is modified
+    if(this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 5);// 5: how many hash we want to do
+    }
 })
 
 const User = mongoose.model("User", userSchema);

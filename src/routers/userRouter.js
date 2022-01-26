@@ -1,6 +1,6 @@
 import express from "express";
 import { getEdit, postEdit, startGithubLogin, finishGithubLogin,
-         getChangePw, postChangePw } from "../controllers/userController";
+         getChangePw, postChangePw, getProfile } from "../controllers/userController";
 import { protectorMiddleware, publicOnlyMiddleware, avatarUpload } from "../middlewares";
 
 
@@ -13,7 +13,7 @@ userRouter.route("/edit")
 userRouter.route("/change-password").all(protectorMiddleware).get(getChangePw).post(postChangePw);
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
-
+userRouter.get("/:id", getProfile);
 
  
 export default userRouter;

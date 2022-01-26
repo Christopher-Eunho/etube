@@ -75,7 +75,7 @@ export const postJoin = async (req, res) => {
         password,
         location
     });
-    return res.redirect("/");
+    return res.redirect("/login");
 }
 
 export const getLogin = (req, res) => {
@@ -278,5 +278,17 @@ export const postChangePw = async (req, res) => {
     
     // send user to login
     return res.redirect("/login");
+
+}
+
+export const getProfile = async (req, res) => {
+    const {id} = req.params;
+    const user = await User.findById(id).populate("videos");
+
+    if(!user) {
+        return res.status(404).render("404", {pageTitle: "User Not Found"});
+    }
+
+    return res.render("profile", {pageTitle: `${user.name}'s Profile`, user})
 
 }

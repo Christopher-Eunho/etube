@@ -5,6 +5,10 @@ block content
     video(src="/" + video.fileUrl, controls)
     div 
         small=video.createdAt
+        br
+        small Uploader: 
+        samll
+            a(href=`/user/${video.owner.id}`) #{video.owner.name}
         p=video.description
     ul
         li #{video.views} #{ video.views <= 1 ? "view" : "views"}
@@ -13,10 +17,11 @@ block content
     nav
         each hashtag in video.hashtags
             small=hashtag
-    h3
-        a(href=`${video.id}/edit`) Edit &rarr;
-        hr
-        a(href=`${video.id}/delete`) Delete &rarr;
+    if loggedInUser && String(loggedInUser._id) === String(video.owner.id) 
+        h4
+            a(href=`${video.id}/edit`) Edit Video&rarr;
+            br
+            a(href=`${video.id}/delete`) Delete Video&rarr;
 
     
     
