@@ -31,7 +31,7 @@ export const getEdit = async (req, res) => {
     const { id } = req.params;
     const video = await Video.findById(id);
         if(!video){
-            return res.status(404).render("404", {pageTitle : "Video Not Found", fakeUser});
+            return res.status(404).render("404", {pageTitle : "Video Not Found"});
         }
     
     return res.render("editVideo", {pageTitle : "Editing " + video.title, fakeUser, video })
@@ -42,7 +42,7 @@ export const postEdit = async (req, res) => {
     const { title, description, hashtags } = req.body;
     
     if(!Video.exists({id_:id})){
-        return res.status(404).render("404", {pageTitle : "Video Not Found", fakeUser});
+        return res.status(404).render("404", {pageTitle : "Video Not Found"});
     }
 
     await Video.findByIdAndUpdate(id,{
@@ -56,15 +56,18 @@ export const postEdit = async (req, res) => {
 
 export const getUpload = (req, res) => {
     
-    return res.render("upload", {pageTitle : "Upload Video", fakeUser})
+    return res.render("upload", {pageTitle : "Upload Video"})
 
 }
 
 export const postUpload = async (req, res) => {
     const { title, description, hashtags } = req.body;
+    console.log(req.file); 
+    const {path:fileUrl} = req.file;
     try {
         Video.create({
             title,
+            fileUrl,
             description,
             hashtags: Video.formatHashtags(hashtags)
         }) // creates a new video data and save it to the db

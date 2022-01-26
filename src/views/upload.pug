@@ -6,16 +6,19 @@ block content
     if errorMessage
         span=errorMessage
 
-    form(method="POST")
+    form(method="POST", enctype="multipart/form-data")
         div
-            h4 Title
-            input(name="title", placeholder="max 40 characters", type="text", maxlength=40, required)
+            label(for="video") Video File
+            input(name="video", id="Video", accept="video/*", type="file",  required)
+        div
+            label(for="title") Title
+            input(name="title", id="title", placeholder="max 40 characters", type="text", maxlength=40, required)
         div 
-            h4 Description
-            input(name="description", placeholder="min 10 characters", type="text", minlength=10, required)
+            label(for="description") Description
+            input(name="description", id="description", placeholder="min 10 characters", type="text", minlength=10, required)
         div 
-            h4 Hashtags
-            input(name="hashtags", placeholder="Separated by commma", type="text", required)
+            label(for="hashtags") Hashtags
+            input(name="hashtags",id="hashtags", placeholder="Separated by commma", type="text", required)
         input(value="Upload", type="submit")
 
 
