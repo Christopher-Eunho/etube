@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     location: String,
 });
 
-// Hash the password before saving User. This refers to User model. 
+// Hash the password before saving User. 'This' refers to User model. 
 userSchema.pre('save', async function(){
     this.password = await bcrypt.hash(this.password, 5);// 5: how many hash we want to do
 })

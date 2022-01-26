@@ -2,16 +2,19 @@ import User from "../models/User";
 import bcrypt from "bcrypt"; 
 import fetch from "node-fetch";
 
-export const getEditProfile = (req, res) => {
+export const getEdit = (req, res) => {
     return res.render("editProfile", {pageTitle: "Edit Profile"});
 }
 
-export const postEditProfile = async (req, res) => {
+export const postEdit = async (req, res) => {
     const { session: {user: {_id: id,
                             email: currentEmail,
-                            username: currentUsername}},
-            body : {name, email, username, location}} = req;
-
+                            username: currentUsername,
+                            avatarUrl}},
+            body : {name, email, username, location},
+            file} = req;
+    
+    console.log(file);
     
 
     if(currentEmail !== email && await User.exists({email})){
@@ -30,7 +33,8 @@ export const postEditProfile = async (req, res) => {
         {name,
         email,
         username,
-        location},
+        location,
+        avatarUrl: file? file.path : avatarUrl},
         {new: true});
 
     req.session.user = updatedUser;
@@ -224,4 +228,55 @@ export const finishGithubLogin = async (req, res) => {
             return res.redirect("/login");
         }
     }
+}
+
+export const getChangePw = async (req, res) => {
+    return res.render("changePw", {pageTitle: "Change Password"});
+}
+
+export const postChangePw = async (req, res) => {
+    const { session: {user: _id},
+            body : {
+            oldPassword,
+            newPassword,
+            newPasswordConfirm
+            }} = req;
+
+    const user = await User.findById(_id)
+    
+    // old pw check
+    
+    const oldMatch = await bcrypt.compare(oldPassword, user.password );
+
+    if(!oldMatch) {
+        return res.status(400).render('changePw',
+        {pageTitle: "Change Password",
+        errorMessage: "Incorrect old passowrd"});
+    }
+    // new == confirm check
+    
+    if(newPassword !== newPasswordConfirm) {
+        return res.status(400).render('changePw',
+        {pageTitle: "Change Password",
+        errorMessage: "New passowrds do not match"});
+    }
+
+    // old == new check
+
+    if(newPassword == oldPassword) {
+        return res.status(400).render('changePw',
+        {pageTitle: "Change Password",
+        errorMessage: "Can not change to the same passowrd "});
+    }
+  
+    // change password
+    user.password = newPassword;
+    await user.save();
+
+    // clean sesesion
+    req.session.destroy();
+    
+    // send user to login
+    return res.redirect("/login");
+
 }

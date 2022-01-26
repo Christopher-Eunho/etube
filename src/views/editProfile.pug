@@ -2,19 +2,32 @@ extends base.pug
 
 
 block content
+    div
+        h4 Avatar
+        if loggedInUser.avatarUrl
+            img(src="/" + loggedInUser.avatarUrl, width="100", height="100")
+        else
+            small You did not upload avatar image yet. 
     if errorMessage
         h4 #{errorMessage}
-    form(method ="POST")
+    form(method ="POST", enctype="multipart/form-data")
         div
-            h4 Name
-            input(placeholder="Name", name="name", type="text", required, value=loggedInUser.name)
+            label(for="avatar") Avatar
+            input(type="file", id="avatar", name="avatar", accept="image/*")
         div
-            h4 Email 
-            input(placeholder="Email", name="email", type="email", required, value=loggedInUser.email)
+            label(for="name") Name
+            input(placeholder="Name", id="name", name="name", type="text", required, value=loggedInUser.name)
         div
-            h4 Username
-            input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)
+            label(for="email") Email 
+            input(placeholder="Email", id="email" name="email", type="email", required, value=loggedInUser.email)
         div
-            h4 Location
-            input(placeholder="Location", name="location", type="text", value=loggedInUser.location)
+            label(for="username") Username 
+            input(placeholder="Username", id="username" name="username", type="text", required, value=loggedInUser.username)
+        div
+            label(for="location") Location 
+            input(placeholder="Location", id="location", name="location", type="text", value=loggedInUser.location)
         input(type="submit", value="Update")
+    if !loggedInUser.socialOnly
+        br
+        a(href="change-password") Change Password
+        

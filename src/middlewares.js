@@ -1,3 +1,4 @@
+import multer from "multer";
 // sets res.locals which is automatically transferred to view page(Pug)
 export const localsMiddleware = (req, res, next) => {
     res.locals.siteName = "Etube";
@@ -23,3 +24,5 @@ export const publicOnlyMiddleware = (req, res, next) => {
         return res.redirect("/");
     }
 }
+// multer config
+export const uploadFiles = multer({ dest: "uploads/" });
