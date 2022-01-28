@@ -44,7 +44,7 @@ export const postEdit = async (req, res) => {
 
 export const getJoin = (req, res) => {
     return res.render("join", {pageTitle: "Create Account"});
-}
+}  
  
 export const postJoin = async (req, res) => {
     const {name, email, username, password, password2, location} = req.body;
