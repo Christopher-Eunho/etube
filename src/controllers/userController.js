@@ -47,6 +47,7 @@ export const getJoin = (req, res) => {
 }  
  
 export const postJoin = async (req, res) => {
+    console.log(req);
     const {name, email, username, password, password2, location} = req.body;
     
     if(password !== password2) {
