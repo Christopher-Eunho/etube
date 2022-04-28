@@ -10,7 +10,7 @@ block content
             small You did not upload avatar image yet. 
     if errorMessage
         h4 #{errorMessage}
-    form(method ="POST", enctype="multipart/form-data")
+    form(method ="POST")
         div
             label(for="avatar") Avatar
             input(type="file", id="avatar", name="avatar", accept="image/*")

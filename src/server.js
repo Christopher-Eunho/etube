@@ -15,7 +15,7 @@ const logger = morgan("dev"); // "dev" is a config option
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views") // change the location of views from default
 app.use(logger); //Global middleware
-~
+
 
 
 /* 
