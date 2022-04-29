@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Watch videos",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/init.js",
-    "assets": "webpack --config webpack.config.js"
+    "dev": "nodemon",
+    "assets": "webpack"
   },
   "repository": {
     "type": "git",
