@@ -2,15 +2,14 @@ extends base.pug
 
 
 block content
-    div
-        h4 Avatar
+    div.profile__data
         if loggedInUser.avatarUrl
             img(src="/" + loggedInUser.avatarUrl, width="100", height="100")
         else
             small You did not upload avatar image yet. 
     if errorMessage
         h4 #{errorMessage}
-    form(method ="POST")
+    form(method="POST", enctype="multipart/form-data").edit-profile__form
         div
             label(for="avatar") Avatar
             input(type="file", id="avatar", name="avatar", accept="image/*")
@@ -28,6 +27,6 @@ block content
             input(placeholder="Location", id="location", name="location", type="text", value=loggedInUser.location)
         input(type="submit", value="Update")
     if !loggedInUser.socialOnly
-        br
-        a(href="change-password") Change Password
+        div.edit-profile__password
+                a(href="change-password") Change Password &rarr;
         

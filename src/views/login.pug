@@ -11,10 +11,8 @@ block content
             span Password
             input(name="password", type="password", required)
         input(type="submit", value="login")
-        br
-        a(href="/user/github/start") Continue with Github
-    hr
-    div
+        include partials/social-login
+    div.auth-switch
         span Don't have an account?     
         a(href="/join") Create Account
         
