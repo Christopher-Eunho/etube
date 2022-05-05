@@ -1,4 +1,5 @@
 // Initializes and starts app 
+import "regenerator-runtime"; 
 import "dotenv/config"; // = require('dotenv').config()
 import app from "./server";
 import "./db"; // this executes all the codes in ./db.js
