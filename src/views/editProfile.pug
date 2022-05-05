@@ -4,7 +4,10 @@ extends base.pug
 block content
     div.profile__data
         if loggedInUser.avatarUrl
-            img(src="/" + loggedInUser.avatarUrl, width="100", height="100")
+            if loggedInUser.avatarUrl.includes("github")
+                img.header__avatar(src=loggedInUser.avatarUrl, width="100", height="100")
+            else
+                img(src="/" + loggedInUser.avatarUrl, width="100", height="100")   
         else
             small You did not upload avatar image yet. 
     if errorMessage
