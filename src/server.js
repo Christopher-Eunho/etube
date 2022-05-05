@@ -25,7 +25,7 @@ creates session id for each browser and sends it to the browser
 Browser will save the session id on its cookie and, 
 on express, the ids are saved on the server.
 Everytime browser sends a request to any url of localhost, 
-the browser will send it with the session id..
+the browser will send it with the session id
 So, server can identify each browser.  
 By setting resave and saveUninitialized false, app saves the session only when it is created and modified
 */
