@@ -44,7 +44,7 @@ export const getEdit = async (req, res) => {
         return res.status(403).redirect("/");
     }
     
-    return res.render("editVideo", {pageTitle : "Editing " + video.title, fakeUser, video })
+    return res.render("editVideo", {pageTitle : "Editing " + video.title, video })
 }
 
 export const postEdit = async (req, res) => {
@@ -72,8 +72,9 @@ export const getUpload = (req, res) => {
 
 export const postUpload = async (req, res) => {
     const { title, description, hashtags } = req.body;
-    const {path:fileUrl} = req.file;
+    const { path: fileUrl} = req.file;
     const {session: {user: {_id: owner}}} = req;
+    console.log(req.file);
     try {
         const newVideo = await Video.create({
             title,
@@ -88,9 +89,9 @@ export const postUpload = async (req, res) => {
         user.save();
     return res.redirect("/");
     } catch(err) {
-        return res.status(404).render("/upload", {
+        console.log(err)
+        return res.status(404).render("upload", {
             pageTitle: "Upload Video",
-            fakeUser,
             errorMessage: err._message
         })
     }

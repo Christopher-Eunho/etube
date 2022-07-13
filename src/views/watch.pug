@@ -3,25 +3,28 @@ include mixins/video
 
 block content
     video(src="/" + video.fileUrl, controls)
-    div 
-        small=video.createdAt
-        br
-        small Uploader: 
-        samll
-            a(href=`/user/${video.owner.id}`) #{video.owner.name}
-        p=video.description
-    ul
-        li #{video.views} #{ video.views <= 1 ? "view" : "views"}
-        li #{video.comments} #{ video.comments <= 1 ? "comment" : "comments"}
-    h4 hashtags
-    nav
-        each hashtag in video.hashtags
-            small=hashtag
-    if loggedInUser && String(loggedInUser._id) === String(video.owner.id) 
-        h4
-            a(href=`${video.id}/edit`) Edit Video&rarr;
+    block scripts
+        script(src="/static/js/videoPlayer.js")
+    //-
+        div 
+            small=video.createdAt
             br
-            a(href=`${video.id}/delete`) Delete Video&rarr;
+            small Uploader: 
+            samll
+                a(href=`/user/${video.owner.id}`) #{video.owner.name}
+            p=video.description
+        ul
+            li #{video.views} #{ video.views <= 1 ? "view" : "views"}
+            li #{video.comments} #{ video.comments <= 1 ? "comment" : "comments"}
+        h4 hashtags
+        nav
+            each hashtag in video.hashtags
+                small=hashtag
+        if loggedInUser && String(loggedInUser._id) === String(video.owner.id) 
+            h4
+                a(href=`${video.id}/edit`) Edit Video&rarr;
+                br
+                a(href=`${video.id}/delete`) Delete Video&rarr;
 
     
     
