@@ -6,6 +6,7 @@ import morgan from "morgan";  // morgan is a logger middleware
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
+import apiRouter from "./routers/apiRouter";
 import {localsMiddleware } from "./middlewares";
 
 
@@ -46,6 +47,6 @@ app.use("/static", express.static("assets")); // Lets express look for the folde
 app.use("/", rootRouter);
 app.use("/video", videoRouter);
 app.use("/user", userRouter);
-
+app.use("/api", apiRouter);
 
 export default app;

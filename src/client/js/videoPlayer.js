@@ -132,6 +132,16 @@ const handleMouseLeave = () => {
 }, 3000); 
 };  
 
+const handleEnded = () => {
+    // data set is a saved as html data-attribute from FE (See watch.pug)
+    // html data attribute : https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
+    const { id } = videoContainer.dataset;
+    //send POST api request to the addrees
+    fetch(`/api/videos/${id}/view`, {
+      method: "POST",
+    });
+};
+
 const hideControls = () => videoControls.classList.remove("showing");
 const showControls = () => videoControls.classList.add("showing");
 
@@ -141,6 +151,7 @@ volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);//loadedmetadata event occurs when the first frame of media is loaded
 video.addEventListener("timeupdate", handleTimeUpdate);//timeupdate event occurs when the time data of the media is updated 
 video.addEventListener("click", handlePlayClick);
+video.addEventListener("ended", handleEnded); // register view after user finished watching video
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 timeline.addEventListener("input", handleTimeLineChange);
