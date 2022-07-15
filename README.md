@@ -10,7 +10,8 @@ Currently deployed @ https://etube2022.herokuapp.com/
 - Watch video
 - Authentication using user password
 - Social autehntication using Github
-- Youtube style using scss and webpack
+- Youtube style using scss and 
+- Video player with core features(play, mute, volume, timeline) using html media element
 - Deployment using heroku
 
 ### Currently Working on
