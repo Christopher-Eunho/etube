@@ -11,6 +11,9 @@ const volumeRange = document.getElementById("volume");
 const currenTime = document.getElementById("currenTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
+const fullScreenBtn = document.getElementById("fullScreen");
+const videoContainer = document.getElementById("videoContainer");
+
 
 let volumeValue = 0.5;
 video.volume = volumeValue;
@@ -80,12 +83,23 @@ const formatTime = (seconds) => {
   return new Date(Math.floor(seconds) * 1000).toISOString().substring(11, 19);
 }
 
+const handleFullscreen = () => {
+    // Full Screen API : https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
+    const fullscreen = document.fullscreenElement;
+    if (fullscreen) {
+      document.exitFullscreen();
+      fullScreenBtn.innerText = "Enter Full Screen";
+    } else {
+      videoContainer.requestFullscreen();
+      fullScreenBtn.innerText = "Exit Full Screen";
+    }
+  };
+  
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
-
-//loadedmetadata event occurs when the first frame of media is loaded  
-video.addEventListener("loadedmetadata", handleLoadedMetadata);
-//timeupdate event occurs when the time data of the media is updated 
-video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("loadedmetadata", handleLoadedMetadata);//loadedmetadata event occurs when the first frame of media is loaded
+video.addEventListener("timeupdate", handleTimeUpdate);//timeupdate event occurs when the time data of the media is updated 
 timeline.addEventListener("input", handleTimeLineChange)
+fullScreenBtn.addEventListener("click", handleFullscreen);
