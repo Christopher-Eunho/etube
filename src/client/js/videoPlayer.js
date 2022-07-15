@@ -13,12 +13,15 @@ const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreen");
 const videoContainer = document.getElementById("videoContainer");
+const videoControls = document.getElementById("videoControls");
 
 
 let volumeValue = 0.5;
+let controlsTimeout = null; // id of current controller's showing/disappering timeout caused by leaving mouse .
+let controlsMovementTimeout = null; // id of current controller's showing/disappering timeout caused by stop moving mouse in video .
 video.volume = volumeValue;
 
-const handlePlayClick = (e) => {
+const handlePlayClick = () => {
     if(video.paused) {
         video.play();
     } else {
@@ -38,7 +41,7 @@ const handleMuteClick = (e) => {
     }
         muteBtn.innerText = video.muted ? "Unmute" : "Mute";
         volumeRange.value = video.muted ? 0 : 0.5;
-    };
+};
   
 const handleVolumeChange = (event) => {
     const {
@@ -94,12 +97,48 @@ const handleFullscreen = () => {
       fullScreenBtn.innerText = "Exit Full Screen";
     }
   };
-  
+
+const handleMouseMove = () => {
+if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+    controlsTimeout = null;
+}
+if (controlsMovementTimeout) {
+    clearTimeout(controlsMovementTimeout);
+    controlsMovementTimeout = null;
+}
+showControls()
+controlsMovementTimeout = setTimeout(hideControls, 3000);
+};
+
+const handleKeyDown = (e) => {
+    console.log(e.code);
+    if(e.code === "Space") {
+        handlePlayClick();
+    } else if(e.code === "KeyM") {
+        handleMuteClick()
+    } else if(e.code === "KeyF") {
+        handleFullscreen()
+    }
+}
+
+const handleMouseLeave = () => {
+    // setTimeOut returns an unique id for each timeout. Each timeout can be canceled usingi the id.
+    controlsTimeout = setTimeout(() => {
+    hideControls();
+}, 3000); 
+};  
+
+const hideControls = () => videoControls.classList.remove("showing");
+const showControls = () => videoControls.classList.add("showing");
 
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);//loadedmetadata event occurs when the first frame of media is loaded
 video.addEventListener("timeupdate", handleTimeUpdate);//timeupdate event occurs when the time data of the media is updated 
-timeline.addEventListener("input", handleTimeLineChange)
+video.addEventListener("mousemove", handleMouseMove);
+video.addEventListener("mouseleave", handleMouseLeave);
+timeline.addEventListener("input", handleTimeLineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
+document.addEventListener("keydown", handleKeyDown);
