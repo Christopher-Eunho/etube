@@ -2,6 +2,8 @@ extends base.pug
 
 
 block content
+    div
+        button#startBtn Start Recording
     h3 Upload New Video
     if errorMessage
         span=errorMessage
@@ -20,6 +22,9 @@ block content
             label(for="hashtags") Hashtags
             input(name="hashtags",id="hashtags", placeholder="Separated by commma", type="text", required)
         input(value="Upload", type="submit")
+
+block scripts
+    script(src="/static/js/recorder.js")
 
 
     
