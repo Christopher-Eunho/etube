@@ -75,8 +75,9 @@ const handleLoadedMetadata = () => {
 const handleTimeUpdate = () => {
     
     currenTime.innerText = formatTime(video.currentTime);
+    // make sure to assign number to 'value'
     timeline.value = Math.floor(video.currentTime);
-    // console.log(timeline.value);
+    
     
 };
 
