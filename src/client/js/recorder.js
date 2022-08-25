@@ -89,6 +89,8 @@ const init = async () => {
   video.play();
 };
 
-init();
+// Recording feature is currently disabled for deployed version as it is still being made.
+// To enable the incomplete version, uncomment the init and front-end components on upload.pug 
+// init();
 
 startBtn.addEventListener("click", handleStart);

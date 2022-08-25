@@ -68,18 +68,23 @@ const handleVolumeChange = (event) => {
 
 const handleLoadedMetadata = () => {
     //loadedmetadata event occurs when the first frame of media is loaded  
-totalTime.innerText = formatTime(video.duration);
-timeline.max = Math.floor(video.duration);
+    totalTime.innerText = formatTime(video.duration);
+    timeline.max = Math.floor(video.duration);
 };
 
 const handleTimeUpdate = () => {
-currenTime.innerText = formatTime(video.currentTime);
+    
+    currenTime.innerText = formatTime(video.currentTime);
+    timeline.value = Math.floor(video.currentTime);
+    // console.log(timeline.value);
+    
 };
 
 const handleTimeLineChange = (event) => {
     const {
         target: { value },
       } = event;
+
       // set the time of the video to a input
       video.currentTime = value;
 
@@ -115,7 +120,7 @@ controlsMovementTimeout = setTimeout(hideControls, 3000);
 };
 
 const handleKeyDown = (e) => {
-    console.log(e.code);
+
     if(e.code === "Space") {
         handlePlayClick();
     } else if(e.code === "KeyM") {
